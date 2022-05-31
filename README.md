@@ -1,6 +1,6 @@
 # workerpool
 
-[![Test status](https://github.com/savsgio/workerpool/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/savsgio/workerpool/actions?workflow=test)
+[![Test status](https://github.com/savsgio/workerpool/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/savsgio/workerpool/actions?workflow=test)
 [![Go Report Card](https://goreportcard.com/badge/github.com/savsgio/workerpool)](https://goreportcard.com/report/github.com/savsgio/workerpool)
 [![GoDev](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white)](https://pkg.go.dev/github.com/savsgio/workerpool)
 
