@@ -9,13 +9,22 @@ linters:
     - exhaustivestruct
     - paralleltest
     - nolintlint
-    - ifshort
     - varnamelen
     - exhaustruct
     - nonamedreturns
 
-    # Deprecated
+    # Diasable by generics support.
+    - rowserrcheck
+    - sqlclosecheck
+    - wastedassign
+
+    # Deprecated.
     - maligned
     - scopelint
     - golint
     - interfacer
+    - structcheck
+    - varcheck
+    - nosnakecase
+    - ifshort
+    - deadcode
