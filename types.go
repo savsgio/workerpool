@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type Handler[T any] func(args T)
+type Handler[T any] func(T)
 
 type Config struct {
 	MaxWorkersCount       uint
@@ -27,5 +27,6 @@ type Pool[T any] struct {
 
 type workerChan[T any] struct {
 	lastUseTime time.Time
-	ch          chan T
+	dataCh      chan T
+	stopCh      chan struct{}
 }

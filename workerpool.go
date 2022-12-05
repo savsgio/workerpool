@@ -33,7 +33,8 @@ func New[T any](cfg Config, handler Handler[T]) *Pool[T] {
 		workerChanPool: sync.Pool{
 			New: func() interface{} {
 				return &workerChan[T]{
-					ch: make(chan T, workerChanCap),
+					dataCh: make(chan T, workerChanCap),
+					stopCh: make(chan struct{}, workerChanCap),
 				}
 			},
 		},
@@ -75,7 +76,8 @@ func (wp *Pool[T]) Stop() {
 	wp.mu.Lock()
 
 	for i := range wp.ready {
-		close(wp.ready[i].ch)
+		close(wp.ready[i].dataCh)
+		close(wp.ready[i].stopCh)
 	}
 
 	wp.ready = wp.ready[:0]
@@ -127,7 +129,7 @@ func (wp *Pool[T]) clean() {
 	// may be blocking and may consume a lot of time if many workers
 	// are located on non-local CPUs.
 	for i := range chToStop {
-		close(chToStop[i].ch)
+		chToStop[i].stopCh <- struct{}{}
 	}
 }
 
@@ -183,11 +185,18 @@ func (wp *Pool[T]) release(ch *workerChan[T]) bool {
 }
 
 func (wp *Pool[T]) serve(ch *workerChan[T]) {
-	for args := range ch.ch {
-		wp.handler(args)
+	stop := false
 
-		if !wp.release(ch) {
-			break
+	for !stop {
+		select {
+		case <-ch.stopCh:
+			stop = true
+		case value := <-ch.dataCh:
+			wp.handler(value)
+
+			if !wp.release(ch) {
+				break
+			}
 		}
 	}
 
@@ -218,7 +227,7 @@ func (wp *Pool[T]) Exec(args T) {
 			gtime.ReleaseTicker(ticker)
 		}
 
-		ch.ch <- args
+		ch.dataCh <- args
 
 		ok = true
 	}
