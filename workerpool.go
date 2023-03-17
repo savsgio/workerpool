@@ -76,8 +76,8 @@ func (wp *Pool[T]) Stop() {
 	wp.mu.Lock()
 
 	for i := range wp.ready {
-		close(wp.ready[i].dataCh)
 		close(wp.ready[i].stopCh)
+		close(wp.ready[i].dataCh)
 	}
 
 	wp.ready = wp.ready[:0]
