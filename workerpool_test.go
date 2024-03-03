@@ -52,6 +52,7 @@ func Benchmark_Gorutines(b *testing.B) {
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
 			wg.Add(1)
+
 			go handler(foo{A: 1, B: 2})
 		}
 	})

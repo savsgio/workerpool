@@ -12,6 +12,7 @@ linters:
     - varnamelen
     - exhaustruct
     - nonamedreturns
+    - depguard
 
     # Diasable by generics support.
     - rowserrcheck
