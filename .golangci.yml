@@ -5,27 +5,15 @@ linters:
     - gomnd
     - gochecknoglobals
     - testpackage
-    - goerr113
-    - exhaustivestruct
     - paralleltest
     - nolintlint
     - varnamelen
     - exhaustruct
     - nonamedreturns
     - depguard
+    - mnd
+    - copyloopvar
+    - intrange
 
-    # Diasable by generics support.
-    - rowserrcheck
-    - sqlclosecheck
-    - wastedassign
-
-    # Deprecated.
-    - maligned
-    - scopelint
-    - golint
-    - interfacer
-    - structcheck
-    - varcheck
-    - nosnakecase
-    - ifshort
-    - deadcode
+    # deprecated
+    - execinquery
