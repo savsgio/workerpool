@@ -31,7 +31,7 @@ func New[T any](cfg Config, handler Handler[T]) *Pool[T] {
 		stopCh:  make(chan struct{}),
 		ready:   make([]*workerChan[T], 0, cfg.MaxWorkersCount),
 		workerChanPool: sync.Pool{
-			New: func() interface{} {
+			New: func() any {
 				return &workerChan[T]{
 					dataCh: make(chan T, workerChanCap),
 					stopCh: make(chan struct{}, workerChanCap),
@@ -92,7 +92,7 @@ func (wp *Pool[T]) indexOf(criticalTime time.Time) int {
 	i, j := 0, n
 
 	for i <= j {
-		h := int(uint(i+j) >> 1) // avoid overflow when computing h
+		h := (i + j) / 2
 
 		if criticalTime.After(wp.ready[h].lastUseTime) {
 			i = h + 1
