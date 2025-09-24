@@ -195,7 +195,7 @@ func (wp *Pool[T]) serve(ch *workerChan[T]) {
 			wp.handler(value)
 
 			if !wp.release(ch) {
-				break
+				stop = true
 			}
 		}
 	}
