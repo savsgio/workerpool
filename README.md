@@ -6,7 +6,7 @@
 
 Lightweight and fast worker pool with generics support.
 
-Go version: >=1.18
+Go version: >=1.21
 
 Based on: [valyala/fasthttp/workerpool.go](https://github.com/valyala/fasthttp)
 
